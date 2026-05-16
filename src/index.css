@@ -1,0 +1,61 @@
+/* ─── IMPORT GOOGLE FONTS ─── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* ─── GLOBAL RESET & BASE STYLES ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  color: #fff;
+  overflow-x: hidden;
+  font-family: 'Lora', serif;
+}
+
+/* ─── CUSTOM SCROLLBAR ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C0392B;
+  border-radius: 3px;
+}
+
+/* ─── ANIMATIONS (Used in the React components) ─── */
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } 
+  to { opacity: 1; }
+}
+
+/* ─── RESPONSIVE UTILITIES ─── */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
