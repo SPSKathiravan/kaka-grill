@@ -154,7 +154,7 @@ const MENU: any = {
     { name: "Beef Madhgout (Full / Half)", nameAr: "مضغوط لحم بقري (كامل / نصف)", desc: "Pressure-cooked spiced beef rice", descAr: "أرز ولحم بقري مبهر مطبوخ بالضغط", price: "SAR 240 / 120", tag: "Premium", img: "/Beef Madhgout (Full _ Half).webp" },
     { name: "Mutton Waleema", nameAr: "وليمة لحم", desc: "Traditional slow-cooked mutton rice", descAr: "أرز بلحم الغنم مطبوخ ببطء بالطريقة التقليدية", price: "SAR 150.00", tag: "Feast", img: "/Mutton Waleema.webp" },
     { name: "Chicken Madhgout (Full / Half)", nameAr: "مضغوط دجاج (كامل / نصف)", desc: "Pressure-cooked spiced chicken rice", descAr: "أرز ودجاج مبهر مطبوخ بالضغط", price: "SAR 60 / 30", img: "/Chicken Madhgout (Full _ Half).webp" },
-    { name: "Briyani Rice With Al Faham (Full / Half)", nameAr: "أرز برياني مع الفحم (كامل / نصف)", desc: "Fragrant biryani rice with Al Faham chicken", descAr: "أرز برياني عطري مع دجاج الفحم", price: "SAR 60 / 30", tag: "Popular", img: "/Madhgout Rice With Al Faham (Full _ Half).webp" },
+    { name: "Madhgout Rice With Al Faham", nameAr: "أرز برياني مع الفحم (كامل / نصف)", desc: "Fragrant biryani rice with Al Faham chicken", descAr: "أرز برياني عطري مع دجاج الفحم", price: "SAR 60 / 30", tag: "Popular", img: "/Briyani Rice With Al Faham (Full _ Half).webp" },
     { name: "Madhgout Rice With Al Faham (Full / Half)", nameAr: "أرز مضغوط مع الفحم (كامل / نصف)", desc: "Pressure-cooked rice with Al Faham chicken", descAr: "أرز مطبوخ بالضغط مع دجاج الفحم", price: "SAR 60 / 30", img: "/Madhgout Rice With Al Faham (Full _ Half).webp" },
     { name: "Briyani Rice With Shawaya (Full / Half)", nameAr: "أرز برياني مع الشواية (كامل / نصف)", desc: "Fragrant biryani rice with grilled chicken", descAr: "أرز برياني عطري مع دجاج الشواية", price: "SAR 56 / 28", img: "/Briyani Rice With Shawaya (Full _ Half).webp" },
     { name: "Madhgout Rice With Shawaya (Full / Half)", nameAr: "أرز مضغوط مع الشواية (كامل / نصف)", desc: "Pressure-cooked rice with grilled chicken", descAr: "أرز مطبوخ بالضغط مع دجاج الشواية", price: "SAR 56 / 28", img: "/Madhgout Rice With Shawaya (Full _ Half).webp" },
@@ -396,7 +396,6 @@ nav {
 
 .hamburger { display: none; color: #fff; font-size: 1.3rem; cursor: pointer; background: none; border: none; padding: 6px 8px; line-height: 1; }
 
-/* Enhanced Fullscreen Mobile Overlay UI */
 .mobile-nav-dropdown {
   display: none;
   position: fixed;
@@ -446,7 +445,6 @@ nav {
   justify-content: center;
 }
 
-/* Premium Back Button Styles */
 .back-btn-container {
   width: 100%;
   display: flex;
@@ -764,10 +762,11 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
 .footer-row:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
 .footer-row span:last-child { color: var(--gold-bright); font-weight: 600; direction: ltr; white-space: nowrap; }
 
-.footer-contact-item { display: flex; align-items: center; gap: 14px; margin-bottom: 1.2rem; color: var(--text-muted); font-size: 0.9rem; transition: var(--transition); text-decoration: none; }
+.footer-contact-item { display: flex; align-items: center; gap: 14px; margin-bottom: 1.2rem; color: var(--text-muted); font-size: 0.9rem; transition: var(--transition); text-decoration: none; cursor: pointer; }
 .footer-contact-item:hover { color: white; transform: translateX(4px); }
 .footer-contact-icon { width: 34px; height: 34px; border-radius: 10px; background: rgba(201,169,110,0.1); color: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; transition: var(--transition); }
 .footer-contact-item:hover .footer-contact-icon { background: var(--gold); color: black; box-shadow: 0 4px 15px rgba(201,169,110,0.4); }
+.footer-contact-item.whatsapp:hover .footer-contact-icon { background: #25D366; color: white; box-shadow: 0 4px 15px rgba(37,211,102,0.4); }
 .footer-contact-text { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
 .footer-contact-value { direction: ltr; font-weight: 500; color: rgba(255,255,255,0.8); font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; color: rgba(255,255,255,0.4); font-size: 0.78rem; letter-spacing: 0.04em; font-family: var(--font-body); }
@@ -1108,7 +1107,6 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   .item-desc { font-size: 0.84rem; }
   .item-price { font-size: 1rem; }
   
-  /* Fast touchscreen tap visual responses */
   .menu-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
   .menu-card:active { transform: scale(0.975); border-color: rgba(192,57,43,0.35); background: rgba(192,57,43,0.03); }
 
@@ -1141,11 +1139,11 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   .book-table-float-btn .bt-float-icon { font-size: 1.2rem; }
   
   .back-btn-modern {
-    padding: 8px 18px;
+    padding: 8px 16px;
     font-size: 0.78rem;
   }
   .back-btn-container {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     margin-top: 1rem;
   }
 }
@@ -1353,7 +1351,8 @@ function Hero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
+        onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
       />
       <div className="hero-overlay" />
     </header>
@@ -1392,14 +1391,16 @@ function HomeMenuPreview({ onNavigateToMenu, lang }: { onNavigateToMenu: () => v
     <section id="menu-preview" style={{ padding: "7rem 5vw", position: "relative", zIndex: 2, background: "transparent" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "4rem", alignItems: "center" } as any}>
         <div className="offering-image-grid reveal-left">
+          {/* FIXED: preload="metadata" + onCanPlay forces play on all browsers including iOS */}
           <video
             className="oig-main"
-            src="kakamain.mp4"
+            src="kakammain.mp4"
             autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
+            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
             style={{ objectFit: "cover", display: "block" }}
           />
           <video
@@ -1409,7 +1410,8 @@ function HomeMenuPreview({ onNavigateToMenu, lang }: { onNavigateToMenu: () => v
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
+            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
           />
           <video
             className="oig-video-tile"
@@ -1418,7 +1420,8 @@ function HomeMenuPreview({ onNavigateToMenu, lang }: { onNavigateToMenu: () => v
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
+            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
           />
         </div>
 
@@ -1502,14 +1505,11 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
   return (
     <div className="detail-page" style={{ position: "relative", zIndex: 1 }}>
       <div className="category-detail-hero" style={{ padding: "9rem 5vw 3rem" }}>
-        
-        {/* NEW MODERN BACK BUTTON */}
         <div className="back-btn-container">
           <button className="back-btn-modern" onClick={onNavigateHome}>
             <i className="fas fa-arrow-left"></i> {(T as any)[lang].fullMenu.back}
           </button>
         </div>
-
         <div className="category-detail-icon-large"><i className="fas fa-calendar-check"></i></div>
         <div className="section-header" style={{ marginBottom: 0 }}>
           <span className="section-subtitle">{label("Reserve Your Experience", "احجز تجربتك")}</span>
@@ -1558,7 +1558,7 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
           </div>
           <div className="bt-field" style={{ width: "100%", marginBottom: "20px" }}>
             <label className="bt-label">{label("Special Requests (optional)", "طلبات خاصة (اختياري)")}</label>
-            <textarea className="bt-input bt-textarea" name="message" value={form.message} onChange={handleChange} placeholder={label("Any متطلبات غذائية، مناسبة، أو ملاحظات خاصة...")} rows={4} />
+            <textarea className="bt-input bt-textarea" name="message" value={form.message} onChange={handleChange} placeholder={label("Any dietary requirements, occasion, or special notes...", "أي متطلبات غذائية، مناسبة، أو ملاحظات خاصة...")} rows={4} />
           </div>
           <div style={{ textAlign: "center", marginTop: "1.5rem" } as any}>
             <button className="btn btn-primary" onClick={handleSend} disabled={sending} style={{ padding: "15px 32px", fontSize: "0.95rem", borderRadius: "8px", width: "100%" }}>
@@ -1584,14 +1584,11 @@ function FullMenuPage({ onNavigateHome, onSelectCategory, lang }: { onNavigateHo
   return (
     <div style={{ paddingTop: "100px", minHeight: "100vh", position: "relative", zIndex: 1 }}>
       <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "1rem 5vw 0" }}>
-        
-        {/* NEW MODERN BACK BUTTON */}
         <div className="back-btn-container-static">
           <button onClick={onNavigateHome} className="back-btn-modern">
             <i className="fas fa-arrow-left"></i> {text.back}
           </button>
         </div>
-
       </div>
       <section style={{ paddingTop: "0.5rem", paddingBottom: "2rem" }}>
         <div className="section-header reveal">
@@ -1647,14 +1644,11 @@ function CategoryDetailPage({ category, onBack, lang }: { category: string; onBa
   return (
     <div className={`detail-page${exiting ? ' exit' : ''}`} style={{ minHeight: "100vh", position: "relative", zIndex: 1 }}>
       <div className="category-detail-hero">
-        
-        {/* NEW MODERN BACK BUTTON */}
         <div className="back-btn-container">
           <button className="back-btn-modern" onClick={handleBack}>
             <i className="fas fa-arrow-left"></i> {text.backToMenu}
           </button>
         </div>
-
         <div className="category-detail-icon-large">
           <i className={`fas ${icon}`}></i>
         </div>
@@ -1764,6 +1758,7 @@ function Footer({ lang }: { lang: "en" | "ar" }) {
             <span className="ig-handle">@kakagrilljubail</span>
           </a>
         </div>
+
         <div className="footer-col">
           <h4>{text.hours}</h4>
           <div className="footer-card">
@@ -1772,22 +1767,44 @@ function Footer({ lang }: { lang: "en" | "ar" }) {
             <div className="footer-row"><span>{text.sun}</span><span>1:00 PM – 11:00 PM</span></div>
           </div>
         </div>
+
         <div className="footer-col">
           <h4>{text.contact}</h4>
+
+          {/* Location */}
           <a href="https://maps.app.goo.gl/oFsvv6URY4f3gdUg7?g_st=ic" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-map-marker-alt"></i></div>
-            <div className="footer-contact-text"><span className="footer-contact-value">{text.location}</span></div>
+            <div className="footer-contact-text">
+              <span className="footer-contact-value">{text.location}</span>
+            </div>
           </a>
+
+          {/* Phone — plain tel: link, no JS override needed */}
           <a href="tel:+966557820123" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-phone-alt"></i></div>
-            <div className="footer-contact-text"><span className="footer-contact-value" style={{ direction: "ltr" }}>+966 55 782 0123</span></div>
+            <div className="footer-contact-text">
+              <span className="footer-contact-value" style={{ direction: "ltr" }}>+966 55 782 0123</span>
+            </div>
           </a>
+
+          {/* WhatsApp — opens WhatsApp chat directly */}
+          <a href="https://wa.me/966557820123" target="_blank" rel="noopener noreferrer" className="footer-contact-item whatsapp">
+            <div className="footer-contact-icon"><i className="fab fa-whatsapp"></i></div>
+            <div className="footer-contact-text">
+              <span className="footer-contact-value" style={{ direction: "ltr" }}>WhatsApp Us</span>
+            </div>
+          </a>
+
+          {/* Email — plain mailto: link, no JS override needed */}
           <a href="mailto:info@kakagrill.com" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-envelope-open-text"></i></div>
-            <div className="footer-contact-text"><span className="footer-contact-value" style={{ direction: "ltr" }}>info@kakagrill.com</span></div>
+            <div className="footer-contact-text">
+              <span className="footer-contact-value" style={{ direction: "ltr" }}>info@kakagrill.com</span>
+            </div>
           </a>
         </div>
       </div>
+
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div className="footer-bottom">
           <span>{text.rights}</span>
