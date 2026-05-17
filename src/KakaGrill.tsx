@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from "react";
+import type { MouseEvent, ChangeEvent, SyntheticEvent } from "react";
 
-const T = {
+// Type Definitions to fix TypeScript errors
+type ViewType = "home" | "menu" | "booking";
+type LangType = "en" | "ar";
+
+interface BookingFormState {
+  name: string;
+  phone: string;
+  date: string;
+  time: string;
+  members: string;
+  table: string;
+  message: string;
+}
+
+const T: any = {
   en: {
     nav: { home: "Home", menu: "Menu", gallery: "Gallery" },
     heroTooltip: "View Menu",
@@ -85,7 +100,7 @@ const T = {
   }
 };
 
-const MENU: any = {
+const MENU: { [key: string]: any[] } = {
   "Appetizers": [
     { name: "Muqabbilat", nameAr: "مقبلات", desc: "Mixed appetizer platter", descAr: "طبق مقبلات مشكل", price: "SAR 15.00", img: "/Muqabbilat.webp" },
     { name: "Olive Mix Salad", nameAr: "سلطة زيتون مشكل", desc: "Fresh mixed olives with herbs", descAr: "زيتون مشكل طازج مع الأعشاب", price: "SAR 10.00", img: "/Olive Mix Salad.webp" },
@@ -147,8 +162,8 @@ const MENU: any = {
   "Mixed Grill": [
     { name: "Mixed - 18 Skewer", nameAr: "مشكل 18 سيخ", desc: "6 Skewers Chicken with Bone / 12 Mix Skewers", descAr: "6 أسياخ دجاج بعظم / 12 سيخ مشكل", price: "SAR 132.00", tag: "For Sharing", img: "/Mixed - 18 Skewer.webp" },
     { name: "Mixed - 11 Skewer", nameAr: "مشكل 11 سيخ", desc: "Platter of assorted kebabs and awsal", descAr: "طبق مشاوي مشكلة متنوعة", price: "SAR 80.00", tag: "For Sharing", img: "/Mixed - 11 Skewer.webp" },
-    { name: "Mixed - Chicken with Bone 8 Skewer", nameAr: "مشكل دجاج بعظم 8 أسياخ", desc: "8 Skewers Chicken with Bone", descAr: "8 أسياخ دجاج بعظم", price: "SAR 62.00", img: "/Mixed - Chicken with Bone 8 Skewer.webp" },
-    { name: "Mixed - Chicken Boneless 8 Skewer", nameAr: "مشكل دجاج بدون عظم 8 أسياخ", desc: "8 Skewers Boneless Chicken", descAr: "8 أسياخ دجاج بدون عظم", price: "SAR 58.00", img: "/Mixed - Chicken Boneless 8 Skewer.webp" },
+    { name: "Mixed - Chicken with Bone 8 Skewer", nameAr: "مشكل دجاج بعظم 8 أسياخ", desc: "8 أسياخ دجاج بعظم", price: "SAR 62.00", img: "/Mixed - Chicken with Bone 8 Skewer.webp" },
+    { name: "Mixed - Chicken Boneless 8 Skewer", nameAr: "مشكل دجاج بدون عظم 8 أسياخ", desc: "8 أسياخ دجاج بدون عظم", price: "SAR 58.00", img: "/Mixed - Chicken Boneless 8 Skewer.webp" },
   ],
   "Rice": [
     { name: "Beef Madhgout (Full / Half)", nameAr: "مضغوط لحم بقري (كامل / نصف)", desc: "Pressure-cooked spiced beef rice", descAr: "أرز ولحم بقري مبهر مطبوخ بالضغط", price: "SAR 240 / 120", tag: "Premium", img: "/Beef Madhgout (Full _ Half).webp" },
@@ -184,7 +199,7 @@ const MENU: any = {
   ],
 };
 
-const GALLERY = [
+const GALLERY: any[] = [
   { url: "/image_160ebc.webp", captionEn: "", captionAr: "" },
   { url: "/kabab night.webp", captionEn: "", captionAr: "" },
   { url: "/Fine Dining.webp", captionEn: "", captionAr: "" },
@@ -195,11 +210,12 @@ const GALLERY = [
 
 const HERO_LOGO_URL = "https://z-cdn-media.chatglm.cn/files/933628ef-8a0b-48de-8f7e-f895e3699f2c.png?auth_key=1876156089-472319959e514a4795f3481a1a120baf-0-1358440605b60dd368f4ed8d883b6bca";
 
-const HERO_VIDEO_URL = "kathirwebsite.mp4";
-const OFFERING_VIDEO_1 = "websitekaka2.mp4";
-const OFFERING_VIDEO_2 = "websitekaka3.mp4";
+const HERO_VIDEO_URL = "videohome1.webm";
+const OFFERING_VIDEO_1 = "videohome2.webm";
+const OFFERING_VIDEO_2 = "videohome3.webm";
+const OFFERING_VIDEO_3 = "videohome4.webm";
 
-const CATEGORY_ICONS: any = {
+const CATEGORY_ICONS: { [key: string]: string } = {
   "Appetizers": "fa-leaf",
   "Shawarma": "fa-bread-slice",
   "Chops": "fa-bone",
@@ -217,7 +233,7 @@ const CATEGORY_ICONS: any = {
 };
 
 const GLOBAL_STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cairo:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,400;0,600;0,700;1,400&family=Cairo:wght=400;600;700&family=Outfit:wght=300;400;500;600;700&family=Cinzel:wght=400;600;700&display=swap');
 
 :root {
   --primary: #C0392B;
@@ -319,6 +335,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: 0.01em; }
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   display: block;
   background: #0a0a0a;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s;
+}
+.oig-main:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 40px rgba(192,57,43,0.25), 0 0 0 1px rgba(192,57,43,0.2);
 }
 .oig-video-tile {
   width: 100%;
@@ -394,56 +415,113 @@ nav {
   box-shadow: 0 6px 20px rgba(192,57,43,0.6);
 }
 
-.hamburger { display: none; color: #fff; font-size: 1.3rem; cursor: pointer; background: none; border: none; padding: 6px 8px; line-height: 1; }
+.hamburger {
+  display: none;
+  color: #fff; font-size: 1.3rem; cursor: pointer;
+  background: none; border: none; padding: 6px 8px; line-height: 1;
+  z-index: 10001;
+  position: relative;
+  min-width: 44px; min-height: 44px;
+  align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 
-.mobile-nav-dropdown {
+.mobile-nav-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(4, 4, 4, 0.98);
-  padding: 7rem 2rem 3rem;
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  z-index: 999;
+  width: 100vw;
+  height: 100dvh;
+  background: rgba(3, 3, 3, 0.99);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 10000;
   flex-direction: column;
+  align-items: stretch;
   justify-content: flex-start;
-  gap: 12px;
+  padding-top: 0;
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  transform: translateY(-20px);
+  transition: opacity 0.35s ease;
 }
-.mobile-nav-dropdown.open { 
-  display: flex; 
-  opacity: 1; 
-  pointer-events: auto; 
-  transform: translateY(0);
+.mobile-nav-overlay.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
+
+.mobile-nav-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: background 0.3s, transform 0.3s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.mobile-nav-close:active { background: rgba(192,57,43,0.3); transform: scale(0.92); }
+
+.mobile-nav-logo {
+  padding: 32px 28px 0;
+  margin-bottom: 12px;
+}
+.mobile-nav-logo img { height: 38px; }
+
+.mobile-nav-divider {
+  width: calc(100% - 56px);
+  margin: 0 28px 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.4), transparent);
+}
+
+.mobile-nav-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
 .mobile-nav-link {
-  color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; font-size: 1.3rem;
-  cursor: pointer; padding: 18px 24px; border-radius: 16px;
+  color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; font-size: 1.25rem;
+  cursor: pointer; padding: 18px 20px; border-radius: 16px;
   letter-spacing: 0.06em; text-transform: uppercase; transition: var(--transition);
-  border: 1px solid rgba(255,255,255,0.02);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   display: flex; align-items: center; justify-content: space-between;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 60px;
 }
-.mobile-nav-link::after {
-  content: '→'; font-size: 1.1rem; color: var(--gold); opacity: 0.5; transition: transform 0.3s;
+.mobile-nav-link-arrow {
+  font-size: 1rem; color: var(--gold); opacity: 0.5; transition: transform 0.3s, opacity 0.3s;
 }
-.mobile-nav-link:active, .mobile-nav-link.active {
+.mobile-nav-link:active {
   background: rgba(192,57,43,0.15);
   border-color: rgba(192,57,43,0.3);
   color: #fff;
 }
-.mobile-nav-link:active::after { transform: translateX(4px); opacity: 1; }
+.mobile-nav-link:active .mobile-nav-link-arrow { transform: translateX(4px); opacity: 1; }
 
-.mobile-nav-dropdown .mobile-lang-wrap {
-  margin-top: auto;
-  padding: 10px;
+.mobile-nav-bottom {
+  padding: 24px 20px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
   border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   justify-content: center;
 }
+
+body.nav-open { overflow: hidden; }
 
 .back-btn-container {
   width: 100%;
@@ -563,6 +641,20 @@ nav {
     0 8px 32px rgba(0,0,0,0.6);
 }
 
+@media (max-width: 768px) {
+  .offering-image-grid { grid-template-rows: auto 140px; }
+  .oig-main { height: 220px; }
+}
+@media (max-width: 640px) {
+  .offering-image-grid { gap: 12px; grid-template-rows: auto 130px; }
+  .oig-main { height: 200px; border-radius: 16px; }
+  .oig-video-tile { border-radius: 16px; }
+}
+@media (max-width: 480px) {
+  .offering-image-grid { gap: 10px; grid-template-rows: auto 115px; }
+  .oig-main { height: 185px; border-radius: 14px; }
+}
+
 @keyframes btnGlowPulse {
   0%, 100% {
     box-shadow:
@@ -610,6 +702,7 @@ nav {
   fill: var(--gold-bright);
   letter-spacing: 0.18em;
 }
+
 @keyframes rotateText {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -713,9 +806,7 @@ section { padding: 7rem 5vw; position: relative; z-index: 1; }
 .gallery-expanded-title { font-size: clamp(1.5rem, 4vw, 2.5rem); color: white; font-family: var(--font-display); font-style: italic; margin-bottom: 0; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
 
 .gallery-accordion-bg[src=""],
-.gallery-accordion-bg:not([src]) {
-  display: none;
-}
+.gallery-accordion-bg:not([src]) { display: none; }
 
 footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5rem 5vw 2rem; position: relative; z-index: 1; overflow: hidden; }
 .footer-glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 60%; height: 200px; background: radial-gradient(ellipse at top, rgba(201,169,110,0.08) 0%, transparent 70%); pointer-events: none; }
@@ -825,6 +916,9 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   color: var(--primary-bright);
   transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
   position: relative; z-index: 1;
+}
+.category-card-icon i {
+  color: var(--primary-bright);
 }
 .category-card:hover .category-card-icon, .category-card:active .category-card-icon {
   background: rgba(192,57,43,0.25);
@@ -965,6 +1059,9 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   box-shadow: 0 0 40px rgba(192,57,43,0.2);
   animation: iconPop 0.6s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+.category-detail-icon-large i {
+  color: var(--primary-bright);
+}
 @keyframes iconPop {
   0%   { opacity: 0; transform: scale(0.5); }
   100% { opacity: 1; transform: scale(1); }
@@ -1001,7 +1098,7 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
 
 @media (max-width: 900px) {
   .nav-links-container { display: none !important; }
-  .hamburger { display: flex !important; align-items: center; justify-content: center; }
+  .hamburger { display: flex !important; }
   nav { padding: 0.7rem 1.2rem; border-radius: 50px; }
   .nav-wrapper { padding: 1rem 4vw; }
   .nav-wrapper.scrolled { padding: 0.7rem 4vw; }
@@ -1031,7 +1128,6 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
 @media (max-width: 768px) {
   .bt-row { flex-direction: column; gap: 12px; margin-bottom: 12px; }
   .booking-form-card { padding: 1.8rem 1.4rem; border-radius: 18px; }
-
   section { padding: 5rem 4vw; }
 
   .category-grid {
@@ -1046,27 +1142,16 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
     padding: 0 4vw;
   }
   .menu-card-img-wrap { height: auto; }
-
   .category-detail-hero { padding: 7rem 4vw 2.5rem; }
-
   .section-header { margin-bottom: 2.5rem; }
-
-  .offering-image-grid { grid-template-rows: auto 140px; }
-  .oig-main { height: 220px; }
-
   footer { padding: 4rem 4vw 1.5rem; }
   .footer-row { font-size: 0.82rem; }
   .footer-contact-value { font-size: 0.88rem; }
-
   .book-table-float-btn { width: 68px; height: 68px; right: 16px; bottom: 26px; }
   .book-table-float-btn .bt-float-icon { font-size: 1.25rem; }
-  
   .back-btn-container {
-    position: relative;
-    top: auto;
-    left: auto;
-    margin-bottom: 2rem;
-    margin-top: 1rem;
+    position: relative; top: auto; left: auto;
+    margin-bottom: 2rem; margin-top: 1rem;
   }
 }
 
@@ -1075,105 +1160,67 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   nav { padding: 0.6rem 1rem; }
   .nav-logo { height: 30px; }
   .lang-toggle { padding: 7px 14px; font-size: 0.78rem; min-height: 38px; }
-
   #home { min-height: 100svh; }
-
   .stat-number { font-size: 0.9rem; }
   .stat-label { font-size: 0.64rem; letter-spacing: 0.08em; }
   .stat-separator { margin: 0 1.2rem; }
-
   .section-title { font-size: clamp(2rem, 9vw, 3rem); }
   .section-subtitle { font-size: 0.65rem; letter-spacing: 0.2em; gap: 10px; }
   .section-subtitle::before, .section-subtitle::after { width: 24px; }
   .section-header { margin-bottom: 2rem; }
-
   section { padding: 4rem 4vw; }
-
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 0 4vw 3rem;
-  }
+  .category-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 4vw 3rem; }
   .category-card { border-radius: 16px; padding: 1.4rem 1rem; }
   .category-card-icon { width: 48px; height: 48px; font-size: 1.2rem; margin-bottom: 0.75rem; }
   .category-card-name { font-size: 1rem; }
   .category-card-count { font-size: 0.64rem; }
   .category-card-arrow { display: none; }
-
   .menu-grid { gap: 16px; padding: 0 4vw; }
   .menu-card-img-wrap { height: auto; }
   .menu-card-content { padding: 1.2rem 1.3rem 1.3rem; }
   .item-name { font-size: 1.15rem; }
   .item-desc { font-size: 0.84rem; }
   .item-price { font-size: 1rem; }
-  
   .menu-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
   .menu-card:active { transform: scale(0.975); border-color: rgba(192,57,43,0.35); background: rgba(192,57,43,0.03); }
-
   .category-detail-hero { padding: 6rem 4vw 2rem; }
   .category-detail-icon-large { width: 64px; height: 64px; font-size: 1.6rem; margin-bottom: 1rem; }
-
-  .offering-image-grid { grid-template-rows: auto 130px; gap: 12px; }
-  .oig-main { height: 200px; border-radius: 16px; }
-  .oig-video-tile { border-radius: 16px; }
-
   .gallery-accordion-item.active { min-height: 240px; }
   .gallery-expanded-title { font-size: 1.4rem; }
-
   footer { padding: 3.5rem 4vw 2rem; }
   .footer-grid { gap: 2rem; }
   .footer-col h4 { font-size: 0.9rem; margin-bottom: 1.2rem; }
   .footer-bottom { font-size: 0.72rem; gap: 0.5rem; }
-
   .booking-page-container { padding: 1.5rem 4vw 5rem; }
   .booking-form-card { padding: 1.5rem 1.2rem; border-radius: 16px; }
   .bt-input { padding: 12px 12px; font-size: 0.9rem; min-height: 50px; }
   .bt-label { font-size: 0.78rem; }
-
   .logo-divider { padding: 2rem 0; }
   .logo-divider-line { max-width: 100px; }
-
   .book-table-float-btn { width: 66px; height: 66px; right: 14px; bottom: 28px; }
   .rotating-text-wrapper { inset: -11px; }
   .rotating-text { font-size: 9.5px; }
   .book-table-float-btn .bt-float-icon { font-size: 1.2rem; }
-  
-  .back-btn-modern {
-    padding: 8px 16px;
-    font-size: 0.78rem;
-  }
-  .back-btn-container {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-  }
+  .back-btn-modern { padding: 8px 16px; font-size: 0.78rem; }
+  .back-btn-container { margin-bottom: 1rem; margin-top: 1rem; }
 }
 
 @media (max-width: 480px) {
   .nav-logo { height: 28px; }
   .lang-toggle { padding: 6px 12px; font-size: 0.74rem; }
   nav { padding: 0.55rem 0.9rem; }
-
   .category-grid { gap: 10px; padding: 0 3vw 2.5rem; }
   .category-card { padding: 1.2rem 0.8rem; border-radius: 14px; }
   .category-card-icon { width: 44px; height: 44px; font-size: 1.1rem; margin-bottom: 0.65rem; }
   .category-card-name { font-size: 0.92rem; }
   .category-card-count { font-size: 0.6rem; }
-
   .menu-grid { gap: 14px; padding: 0 3vw; }
   .menu-card-img-wrap { height: auto; }
-
   section { padding: 3.5rem 3vw; }
   .category-detail-hero { padding: 5.5rem 3vw 1.8rem; }
-
-  .offering-image-grid { gap: 10px; grid-template-rows: auto 115px; }
-  .oig-main { height: 185px; border-radius: 14px; }
-
   .section-title { font-size: clamp(1.8rem, 10vw, 2.5rem); }
-
   .gallery-accordion-item.active { min-height: 220px; }
-
   .booking-form-card { padding: 1.2rem 1rem; }
-
   .book-table-float-btn { width: 60px; height: 60px; right: 12px; bottom: 24px; }
   .rotating-text-wrapper { inset: -10px; }
   .rotating-text { font-size: 9px; }
@@ -1188,20 +1235,17 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
   .section-title { font-size: clamp(1.6rem, 11vw, 2.2rem); }
   .menu-card-img-wrap { height: auto; }
   .lang-toggle { padding: 5px 10px; font-size: 0.7rem; }
-
   .book-table-float-btn { width: 56px; height: 56px; right: 10px; bottom: 20px; }
   .rotating-text { font-size: 8.5px; }
-  .book-table-float-btn .bt-float-icon { font-size: 1rem; }
+  .book-table-float-btn .bt-float-icon { font-size: 1.1rem; }
 }
 
 @media (hover: none) and (pointer: coarse) {
   .menu-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
   .menu-card:active { transform: scale(0.975); border-color: rgba(192,57,43,0.35); }
   .menu-card:hover .menu-card-img { transform: none; filter: none; }
-
   .btn:hover { transform: none; }
   .btn:active { transform: scale(0.97); opacity: 0.9; }
-
   .category-card:hover { transform: none; box-shadow: none; border-color: var(--border); }
   .category-card:active {
     transform: scale(0.95);
@@ -1213,15 +1257,11 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
     background: rgba(192,57,43,0.25);
     border-color: rgba(192,57,43,0.5);
   }
-
   .footer-contact-item:hover { transform: none; color: var(--text-muted); }
   .nav-logo:hover { transform: none; }
-
   .nav-link { min-height: 48px; display: flex; align-items: center; justify-content: center; }
-  .mobile-nav-link { min-height: 52px; display: flex; align-items: center; }
   .hamburger { min-width: 44px; min-height: 44px; }
   .lang-toggle { min-height: 40px; }
-
   .book-table-float-btn:active {
     transform: scale(0.93) !important;
     box-shadow:
@@ -1248,7 +1288,12 @@ footer { background: linear-gradient(180deg, #060606 0%, #000 100%); padding: 5r
 }
 `;
 
-function BookTableFloatingBtn({ onClick, lang }: { onClick: () => void; lang: string }) {
+interface BookTableFloatingBtnProps {
+  onClick: () => void;
+  lang: LangType;
+}
+
+function BookTableFloatingBtn({ onClick, lang }: BookTableFloatingBtnProps) {
   const textEn = " ★ BOOK TABLE ★ BOOK TABLE ★";
   const textAr = " ★ احجز طاولة ★ احجز طاولة ★";
   const text = lang === "en" ? textEn : textAr;
@@ -1267,77 +1312,158 @@ function BookTableFloatingBtn({ onClick, lang }: { onClick: () => void; lang: st
   );
 }
 
-function Navbar({ currentView, setCurrentView, lang, setLang }: { currentView: string; setCurrentView: (v: string) => void; lang: "en" | "ar"; setLang: (l: "en" | "ar") => void }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const text = (T as any)[lang].nav;
+interface NavbarProps {
+  currentView: ViewType;
+  setCurrentView: (v: ViewType) => void;
+  lang: LangType;
+  setLang: React.Dispatch<React.SetStateAction<LangType>>;
+}
+
+function Navbar({ currentView, setCurrentView, lang, setLang }: NavbarProps) {
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [activeSection] = useState<string>("home");
+  const text = T[lang].nav;
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add("nav-open");
+    } else {
+      document.body.classList.remove("nav-open");
+    }
+    return () => document.body.classList.remove("nav-open");
+  }, [menuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 60 || currentView !== "home");
-      if (currentView === "home") {
-        const scrollPos = window.scrollY + 150;
-        const galleryEl = document.getElementById("gallery");
-        if (galleryEl && scrollPos >= galleryEl.offsetTop) setActiveSection("gallery");
-        else setActiveSection("home");
-      }
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [currentView]);
 
-  useEffect(() => {
-    const handler = (e: any) => {
-      if (menuOpen && !e.target.closest('nav')) setMenuOpen(false);
-    };
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
-  }, [menuOpen]);
-
-  const handleNav = (view: string, scrollTo?: string) => {
+  const handleNav = (view: ViewType, scrollTo?: string) => {
     setMenuOpen(false);
     if (scrollTo) {
       setCurrentView("home");
       setTimeout(() => document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth" }), 50);
     } else {
       setCurrentView(view);
-      window.scrollTo(0, 0);
     }
   };
 
+  const toggleMenu = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setMenuOpen(v => !v);
+  };
+
   return (
-    <div className={`nav-wrapper ${scrolled || currentView !== "home" ? "scrolled" : ""}`}>
-      <nav>
-        <img src={HERO_LOGO_URL} alt="Kaka Grill" className="nav-logo" onClick={() => handleNav("home")} />
-        <div className="nav-links-container">
-          <ul className="nav-links">
-            <li><a className={`nav-link ${currentView === "home" && activeSection === "home" ? "active" : ""}`} onClick={() => handleNav("home")}>{text.home}</a></li>
-            <li><a className={`nav-link ${currentView === "menu" ? "active" : ""}`} onClick={() => handleNav("menu")}>{text.menu}</a></li>
-            <li><a className={`nav-link ${activeSection === "gallery" ? "active" : ""}`} onClick={() => handleNav("home", "gallery")}>{text.gallery}</a></li>
-          </ul>
+    <>
+      <div className={`mobile-nav-overlay ${menuOpen ? "open" : ""}`}>
+        <button
+          className="mobile-nav-close"
+          onClick={() => setMenuOpen(false)}
+          aria-label="Close menu"
+        >
+          <i className="fas fa-times"></i>
+        </button>
+
+        <div className="mobile-nav-logo">
+          <img src={HERO_LOGO_URL} alt="Kaka Grill" />
         </div>
-        <div className="nav-right">
-          <button className="lang-toggle" onClick={() => setLang(lang === "en" ? "ar" : "en")}>
-            {lang === "en" ? "عربي" : "English"}
-          </button>
-          <button className="hamburger" onClick={(e) => { e.stopPropagation(); setMenuOpen(v => !v); }} aria-label="Menu">
-            <i className={`fas ${menuOpen ? "fa-times" : "fa-bars"}`}></i>
-          </button>
-        </div>
-        <div className={`mobile-nav-dropdown ${menuOpen ? 'open' : ''}`}>
-          <a className={`mobile-nav-link ${currentView === "home" && activeSection === "home" ? "active" : ""}`} onClick={() => handleNav("home")}>{text.home}</a>
-          <a className={`mobile-nav-link ${currentView === "menu" ? "active" : ""}`} onClick={() => handleNav("menu")}>{text.menu}</a>
-          <a className={`mobile-nav-link ${activeSection === "gallery" ? "active" : ""}`} onClick={() => handleNav("home", "gallery")}>{text.gallery}</a>
-          <div className="mobile-lang-wrap">
-            <button className="lang-toggle" onClick={() => setLang(lang === "en" ? "ar" : "en")}>
-              {lang === "en" ? "عربي" : "English"}
-            </button>
+        <div className="mobile-nav-divider" />
+
+        <div className="mobile-nav-links">
+          <div
+            className={`mobile-nav-link ${currentView === "home" && activeSection === "home" ? "active" : ""}`}
+            onClick={() => handleNav("home")}
+          >
+            {text.home}
+            <span className="mobile-nav-link-arrow">→</span>
+          </div>
+          <div
+            className={`mobile-nav-link ${currentView === "menu" ? "active" : ""}`}
+            onClick={() => handleNav("menu")}
+          >
+            {text.menu}
+            <span className="mobile-nav-link-arrow">→</span>
+          </div>
+          <div
+            className={`mobile-nav-link ${activeSection === "gallery" ? "active" : ""}`}
+            onClick={() => handleNav("home", "gallery")}
+          >
+            {text.gallery}
+            <span className="mobile-nav-link-arrow">→</span>
           </div>
         </div>
-      </nav>
-    </div>
+
+        <div className="mobile-nav-bottom">
+          <button
+            className="lang-toggle"
+            onClick={() => { setLang(lang === "en" ? "ar" : "en"); setMenuOpen(false); }}
+          >
+            {lang === "en" ? "عربي" : "English"}
+          </button>
+        </div>
+      </div>
+
+      <div className={`nav-wrapper ${scrolled || currentView !== "home" ? "scrolled" : ""}`}>
+        <nav>
+          <img
+            src={HERO_LOGO_URL}
+            alt="Kaka Grill"
+            className="nav-logo"
+            onClick={() => handleNav("home")}
+          />
+
+          <div className="nav-links-container">
+            <ul className="nav-links">
+              <li>
+                <a
+                  className={`nav-link ${currentView === "home" && activeSection === "home" ? "active" : ""}`}
+                  onClick={() => handleNav("home")}
+                >
+                  {text.home}
+                </a>
+              </li>
+              <li>
+                <a
+                  className={`nav-link ${currentView === "menu" ? "active" : ""}`}
+                  onClick={() => handleNav("menu")}
+                >
+                  {text.menu}
+                </a>
+              </li>
+              <li>
+                <a
+                  className={`nav-link ${activeSection === "gallery" ? "active" : ""}`}
+                  onClick={() => handleNav("home", "gallery")}
+                >
+                  {text.gallery}
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="nav-right">
+            <button
+              className="lang-toggle"
+              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+            >
+              {lang === "en" ? "عربي" : "English"}
+            </button>
+            <button
+              className="hamburger"
+              onClick={toggleMenu}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              <i className={`fas ${menuOpen ? "fa-times" : "fa-bars"}`}></i>
+            </button>
+          </div>
+        </nav>
+      </div>
+    </>
   );
 }
 
@@ -1352,15 +1478,19 @@ function Hero() {
         loop
         playsInline
         preload="metadata"
-        onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
+        onCanPlay={(e: SyntheticEvent<HTMLVideoElement>) => { (e.target as HTMLVideoElement).play().catch(() => {}); }}
       />
       <div className="hero-overlay" />
     </header>
   );
 }
 
-function StatsStrip({ lang }: { lang: "en" | "ar" }) {
-  const statsArray = (T as any)[lang].stats;
+interface StatsStripProps {
+  lang: LangType;
+}
+
+function StatsStrip({ lang }: StatsStripProps) {
+  const statsArray = T[lang].stats;
   const items = statsArray.map((s: any, i: number) => (
     <React.Fragment key={i}>
       <div className="stat-item">
@@ -1383,67 +1513,63 @@ function StatsStrip({ lang }: { lang: "en" | "ar" }) {
   );
 }
 
-function HomeMenuPreview({ onNavigateToMenu, lang }: { onNavigateToMenu: () => void; lang: "en" | "ar" }) {
-  const text = (T as any)[lang].preview;
+interface HomeMenuPreviewProps {
+  onNavigateToMenu: () => void;
+  lang: LangType;
+}
+
+function HomeMenuPreview({ onNavigateToMenu, lang }: HomeMenuPreviewProps) {
+  const text = T[lang].preview;
   const isEn = lang === "en";
 
   return (
     <section id="menu-preview" style={{ padding: "7rem 5vw", position: "relative", zIndex: 2, background: "transparent" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "4rem", alignItems: "center" } as any}>
+      <div style={{
+        maxWidth: "1200px", margin: "0 auto",
+        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        gap: "4rem", alignItems: "center"
+      }}>
         <div className="offering-image-grid reveal-left">
-          {/* FIXED: preload="metadata" + onCanPlay forces play on all browsers including iOS */}
           <video
             className="oig-main"
-            src="kakammain.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
+            src={OFFERING_VIDEO_1}
+            autoPlay muted loop playsInline preload="metadata"
+            onCanPlay={(e: SyntheticEvent<HTMLVideoElement>) => { (e.target as HTMLVideoElement).play().catch(() => {}); }}
             style={{ objectFit: "cover", display: "block" }}
           />
           <video
             className="oig-video-tile"
-            src={OFFERING_VIDEO_1}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
+            src={OFFERING_VIDEO_2}
+            autoPlay muted loop playsInline preload="metadata"
+            onCanPlay={(e: SyntheticEvent<HTMLVideoElement>) => { (e.target as HTMLVideoElement).play().catch(() => {}); }}
           />
           <video
             className="oig-video-tile"
-            src={OFFERING_VIDEO_2}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onCanPlay={(e: any) => { e.target.play().catch(() => {}); }}
+            src={OFFERING_VIDEO_3}
+            autoPlay muted loop playsInline preload="metadata"
+            onCanPlay={(e: SyntheticEvent<HTMLVideoElement>) => { (e.target as HTMLVideoElement).play().catch(() => {}); }}
           />
         </div>
 
-        <div className="offering-content reveal-right" style={{ textAlign: isEn ? "left" : "right" } as any}>
+        <div className="offering-content reveal-right" style={{ textAlign: isEn ? "left" : "right" }}>
           <span className="section-subtitle" style={{ justifyContent: isEn ? "flex-start" : "flex-end", marginBottom: "1rem" }}>
             {isEn ? "Our Selection" : "تشكيلتنا"}
           </span>
-          <h2 className="section-title" style={{ fontSize: "clamp(2rem, 6vw, 4rem)", marginBottom: "1.8rem", textAlign: isEn ? "left" : "right" } as any}>
+          <h2 className="section-title" style={{ fontSize: "clamp(2rem, 6vw, 4rem)", marginBottom: "1.8rem", textAlign: isEn ? "left" : "right" }}>
             {text.title}
           </h2>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.2rem", flexDirection: isEn ? "row" : "row-reverse" } as any}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.2rem", flexDirection: isEn ? "row" : "row-reverse" }}>
             <span style={{ fontSize: "clamp(2.5rem, 8vw, 4rem)", fontWeight: "700", color: "var(--gold)", lineHeight: "1", fontFamily: "var(--font-display)" }}>
               15+
             </span>
-            <span style={{ fontSize: "1rem", color: "rgba(255,255,255,0.9)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em", maxWidth: "200px", lineHeight: "1.3" } as any}>
+            <span style={{ fontSize: "1rem", color: "rgba(255,255,255,0.9)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em", maxWidth: "200px", lineHeight: "1.3" }}>
               {isEn ? "Years of Flavour Excellence" : "سنوات من التميز في النكهة"}
             </span>
           </div>
           <p style={{ color: "var(--text-muted)", fontSize: "1rem", lineHeight: "1.8", marginBottom: "1.8rem" }}>
             {text.desc}
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", marginBottom: "2rem", justifyContent: isEn ? "flex-start" : "flex-end" } as any}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem", marginBottom: "2rem", justifyContent: isEn ? "flex-start" : "flex-end" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--gold)", fontSize: "0.88rem", fontWeight: "500" }}>
               <i className="fas fa-star"></i> 4.9/5 • {isEn ? "Loved by thousands" : "محبوب من قبل الآلاف"}
             </div>
@@ -1464,19 +1590,29 @@ function LogoDivider() {
   return (
     <div className="logo-divider">
       <div className="logo-divider-line" />
-      <img src={HERO_LOGO_URL} alt="" style={{ height: "28px", filter: "grayscale(1) brightness(2.5)", opacity: 0.7, transition: '0.4s' } as any} onMouseEnter={(e: any) => { e.target.style.opacity = '1'; e.target.style.filter = 'none'; }} onMouseLeave={(e: any) => { e.target.style.opacity = '0.7'; e.target.style.filter = 'grayscale(1) brightness(2.5)'; }} />
+      <img
+        src={HERO_LOGO_URL} alt=""
+        style={{ height: "28px", filter: "grayscale(1) brightness(2.5)", opacity: 0.7, transition: '0.4s' }}
+        onMouseEnter={(e: MouseEvent<HTMLImageElement>) => { (e.target as HTMLImageElement).style.opacity = '1'; (e.target as HTMLImageElement).style.filter = 'none'; }}
+        onMouseLeave={(e: MouseEvent<HTMLImageElement>) => { (e.target as HTMLImageElement).style.opacity = '0.7'; (e.target as HTMLImageElement).style.filter = 'grayscale(1) brightness(2.5)'; }}
+      />
       <div className="logo-divider-line" style={{ background: 'linear-gradient(90deg, transparent, var(--gold), transparent)' }} />
     </div>
   );
 }
 
-function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; lang: "en" | "ar" }) {
-  const [form, setForm] = useState({ name: "", phone: "", date: "", time: "", members: "2", table: "Indoor", message: "" });
-  const [sending, setSending] = useState(false);
+interface BookTablePageProps {
+  onNavigateHome: () => void;
+  lang: LangType;
+}
+
+function BookTablePage({ onNavigateHome, lang }: BookTablePageProps) {
+  const [form, setForm] = useState<BookingFormState>({ name: "", phone: "", date: "", time: "", members: "2", table: "Indoor", message: "" });
+  const [sending, setSending] = useState<boolean>(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const handleChange = (e: any) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSend = () => {
     if (!form.name || !form.phone || !form.date || !form.time) {
@@ -1507,7 +1643,7 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
       <div className="category-detail-hero" style={{ padding: "9rem 5vw 3rem" }}>
         <div className="back-btn-container">
           <button className="back-btn-modern" onClick={onNavigateHome}>
-            <i className="fas fa-arrow-left"></i> {(T as any)[lang].fullMenu.back}
+            <i className="fas fa-arrow-left"></i> {T[lang].fullMenu.back}
           </button>
         </div>
         <div className="category-detail-icon-large"><i className="fas fa-calendar-check"></i></div>
@@ -1516,7 +1652,6 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
           <h2 className="section-title">{label("Book a Table", "احجز طاولة")}</h2>
         </div>
       </div>
-
       <div className="booking-page-container">
         <div className="booking-form-card animate-in">
           <div className="bt-row">
@@ -1543,7 +1678,7 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
             <div className="bt-field">
               <label className="bt-label">{label("Number of Members", "عدد الأشخاص")}</label>
               <select className="bt-input" name="members" value={form.members} onChange={handleChange}>
-                {["1","2","3","4","5","6","7","8","9","10+"].map(v => <option key={v} value={v}>{v} {label("Person(s)", "شخص")}</option>)}
+                {["1","2","3","4","5","6","7","8","9","10+"].map((v: string) => <option key={v} value={v}>{v} {label("Person(s)", "شخص")}</option>)}
               </select>
             </div>
             <div className="bt-field">
@@ -1558,11 +1693,15 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
           </div>
           <div className="bt-field" style={{ width: "100%", marginBottom: "20px" }}>
             <label className="bt-label">{label("Special Requests (optional)", "طلبات خاصة (اختياري)")}</label>
-            <textarea className="bt-input bt-textarea" name="message" value={form.message} onChange={handleChange} placeholder={label("Any dietary requirements, occasion, or special notes...", "أي متطلبات غذائية، مناسبة، أو ملاحظات خاصة...")} rows={4} />
+            <textarea className="bt-input bt-textarea" name="message" value={form.message} onChange={handleChange}
+              placeholder={label("Any dietary requirements, occasion, or special notes...", "أي متمتطلبات غذائية، مناسبة، أو ملاحظات خاصة...")} rows={4} />
           </div>
-          <div style={{ textAlign: "center", marginTop: "1.5rem" } as any}>
+          <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
             <button className="btn btn-primary" onClick={handleSend} disabled={sending} style={{ padding: "15px 32px", fontSize: "0.95rem", borderRadius: "8px", width: "100%" }}>
-              {sending ? <><i className="fas fa-circle-notch fa-spin"></i> {label("Processing...", "جاري المعالجة...")}</> : <><i className="fab fa-whatsapp" style={{ fontSize: "1.2rem" }}></i> {label("Confirm via WhatsApp", "تأكيد عبر واتساب")}</>}
+              {sending
+                ? <><i className="fas fa-circle-notch fa-spin"></i> {label("Processing...", "جاري المعالجة...")}</>
+                : <><i className="fab fa-whatsapp" style={{ fontSize: "1.2rem" }}></i> {label("Confirm via WhatsApp", "تأكيد عبر واتساب")}</>
+              }
             </button>
             <p style={{ marginTop: "1rem", color: "var(--text-muted)", fontSize: "0.82rem" }}>
               {label("Your booking request will be sent directly to our team on WhatsApp.", "سيتم إرسال طلب حجزك مباشرةً لفريقنا عبر واتساب.")}
@@ -1574,9 +1713,15 @@ function BookTablePage({ onNavigateHome, lang }: { onNavigateHome: () => void; l
   );
 }
 
-function FullMenuPage({ onNavigateHome, onSelectCategory, lang }: { onNavigateHome: () => void; onSelectCategory: (cat: string) => void; lang: "en" | "ar" }) {
-  const text = (T as any)[lang].fullMenu;
-  const catText = (T as any)[lang].categories;
+interface FullMenuPageProps {
+  onNavigateHome: () => void;
+  onSelectCategory: (cat: string) => void;
+  lang: LangType;
+}
+
+function FullMenuPage({ onNavigateHome, onSelectCategory, lang }: FullMenuPageProps) {
+  const text = T[lang].fullMenu;
+  const catText = T[lang].categories;
   const categories = Object.keys(T.en.categories);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -1597,14 +1742,14 @@ function FullMenuPage({ onNavigateHome, onSelectCategory, lang }: { onNavigateHo
         </div>
       </section>
       <div className="category-grid">
-        {categories.map((cat, index) => {
+        {categories.map((cat: string, index: number) => {
           const count = (MENU[cat] || []).length;
           const icon = CATEGORY_ICONS[cat] || "fa-utensils";
           return (
             <div
               key={cat}
               className="category-card animate-in"
-              style={{ animationDelay: `${index * 0.05}s` } as any}
+              style={{ animationDelay: `${index * 0.05}s` }}
               onClick={() => onSelectCategory(cat)}
             >
               <div className="category-card-icon">
@@ -1627,12 +1772,18 @@ function FullMenuPage({ onNavigateHome, onSelectCategory, lang }: { onNavigateHo
   );
 }
 
-function CategoryDetailPage({ category, onBack, lang }: { category: string; onBack: () => void; lang: "en" | "ar" }) {
-  const text = (T as any)[lang].fullMenu;
-  const catText = (T as any)[lang].categories;
+interface CategoryDetailPageProps {
+  category: string;
+  onBack: () => void;
+  lang: LangType;
+}
+
+function CategoryDetailPage({ category, onBack, lang }: CategoryDetailPageProps) {
+  const text = T[lang].fullMenu;
+  const catText = T[lang].categories;
   const items = MENU[category] || [];
   const icon = CATEGORY_ICONS[category] || "fa-utensils";
-  const [exiting, setExiting] = useState(false);
+  const [exiting, setExiting] = useState<boolean>(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, [category]);
 
@@ -1653,21 +1804,14 @@ function CategoryDetailPage({ category, onBack, lang }: { category: string; onBa
           <i className={`fas ${icon}`}></i>
         </div>
         <div className="section-header" style={{ marginBottom: "0" }}>
-          <span className="section-subtitle">
-            {lang === "en" ? "Our Selection" : "تشكيلتنا"}
-          </span>
+          <span className="section-subtitle">{lang === "en" ? "Our Selection" : "تشكيلتنا"}</span>
           <h2 className="section-title">{catText[category]}</h2>
         </div>
       </div>
-
       <section style={{ paddingTop: "1.5rem", paddingBottom: "5rem" }}>
         <div className="menu-grid">
           {items.map((item: any, index: number) => (
-            <div
-              key={item.name}
-              className="menu-card animate-in"
-              style={{ animationDelay: `${index * 0.07}s` } as any}
-            >
+            <div key={item.name} className="menu-card animate-in" style={{ animationDelay: `${index * 0.07}s` }}>
               <div className="menu-card-img-wrap">
                 <img src={item.img} alt={item.name} className="menu-card-img" loading="lazy" />
                 <div className="menu-card-img-overlay" />
@@ -1694,16 +1838,18 @@ function CategoryDetailPage({ category, onBack, lang }: { category: string; onBa
   );
 }
 
-function GallerySection({ lang }: { lang: "en" | "ar" }) {
-  const text = (T as any)[lang].gallery;
-  const [activeIdx, setActiveIdx] = React.useState(0);
+interface GallerySectionProps {
+  lang: LangType;
+}
 
-  const handleImgError = (e: any) => {
-    e.target.style.display = 'none';
-    const parent = e.target.parentElement;
-    if (parent && !parent.querySelector('.gallery-fallback-bg')) {
-      parent.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)';
-    }
+function GallerySection({ lang }: GallerySectionProps) {
+  const text = T[lang].gallery;
+  const [activeIdx, setActiveIdx] = useState<number>(0);
+
+  const handleImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.style.display = 'none';
+    const parent = e.currentTarget.parentElement;
+    if (parent) parent.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)';
   };
 
   return (
@@ -1713,7 +1859,7 @@ function GallerySection({ lang }: { lang: "en" | "ar" }) {
         <h2 className="section-title">{text.title}</h2>
       </div>
       <div className="gallery-accordion reveal-scale">
-        {GALLERY.map((img, i) => {
+        {GALLERY.map((img: any, i: number) => {
           const isActive = activeIdx === i;
           const numLabel = `0${i + 1}`;
           return (
@@ -1721,13 +1867,7 @@ function GallerySection({ lang }: { lang: "en" | "ar" }) {
               onMouseEnter={() => setActiveIdx(i)}
               onClick={() => setActiveIdx(i)}
             >
-              <img
-                src={img.url}
-                alt={img.captionEn}
-                className="gallery-accordion-bg"
-                loading="lazy"
-                onError={handleImgError}
-              />
+              <img src={img.url} alt={img.captionEn} className="gallery-accordion-bg" loading="lazy" onError={handleImgError} />
               <div className="gallery-accordion-overlay" />
               <div className="gallery-collapsed-content">
                 <span className="gallery-num">{numLabel}</span>
@@ -1744,8 +1884,12 @@ function GallerySection({ lang }: { lang: "en" | "ar" }) {
   );
 }
 
-function Footer({ lang }: { lang: "en" | "ar" }) {
-  const text = (T as any)[lang].footer;
+interface FooterProps {
+  lang: LangType;
+}
+
+function Footer({ lang }: FooterProps) {
+  const text = T[lang].footer;
   return (
     <footer>
       <div className="footer-glow" />
@@ -1753,12 +1897,11 @@ function Footer({ lang }: { lang: "en" | "ar" }) {
         <div className="footer-col" style={{ paddingRight: '1rem' }}>
           <img src={HERO_LOGO_URL} alt="Logo" style={{ height: "52px", marginBottom: "20px", filter: "drop-shadow(0 4px 20px rgba(192,57,43,0.3))", display: "block" }} />
           <p>{text.desc}</p>
-          <a href="https://www.instagram.com/kakagrilljubail?igsh=dnd1NndpcnptYXU1&utm_source=qr" target="_blank" rel="noopener noreferrer" className="social-links-pill" title="Follow us on Instagram">
+          <a href="https://www.instagram.com/kakagrilljubail?igsh=dnd1NndpcnptYXU1&utm_source=qr" target="_blank" rel="noopener noreferrer" className="social-links-pill">
             <div className="social-icon-wrapper"><i className="fab fa-instagram"></i></div>
             <span className="ig-handle">@kakagrilljubail</span>
           </a>
         </div>
-
         <div className="footer-col">
           <h4>{text.hours}</h4>
           <div className="footer-card">
@@ -1767,44 +1910,26 @@ function Footer({ lang }: { lang: "en" | "ar" }) {
             <div className="footer-row"><span>{text.sun}</span><span>1:00 PM – 11:00 PM</span></div>
           </div>
         </div>
-
         <div className="footer-col">
           <h4>{text.contact}</h4>
-
-          {/* Location */}
           <a href="https://maps.app.goo.gl/oFsvv6URY4f3gdUg7?g_st=ic" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-map-marker-alt"></i></div>
-            <div className="footer-contact-text">
-              <span className="footer-contact-value">{text.location}</span>
-            </div>
+            <div className="footer-contact-text"><span className="footer-contact-value">{text.location}</span></div>
           </a>
-
-          {/* Phone — plain tel: link, no JS override needed */}
           <a href="tel:+966557820123" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-phone-alt"></i></div>
-            <div className="footer-contact-text">
-              <span className="footer-contact-value" style={{ direction: "ltr" }}>+966 55 782 0123</span>
-            </div>
+            <div className="footer-contact-text"><span className="footer-contact-value" style={{ direction: "ltr" }}>+966 55 782 0123</span></div>
           </a>
-
-          {/* WhatsApp — opens WhatsApp chat directly */}
           <a href="https://wa.me/966557820123" target="_blank" rel="noopener noreferrer" className="footer-contact-item whatsapp">
             <div className="footer-contact-icon"><i className="fab fa-whatsapp"></i></div>
-            <div className="footer-contact-text">
-              <span className="footer-contact-value" style={{ direction: "ltr" }}>WhatsApp Us</span>
-            </div>
+            <div className="footer-contact-text"><span className="footer-contact-value" style={{ direction: "ltr" }}>WhatsApp Us</span></div>
           </a>
-
-          {/* Email — plain mailto: link, no JS override needed */}
           <a href="mailto:info@kakagrill.com" className="footer-contact-item">
             <div className="footer-contact-icon"><i className="fas fa-envelope-open-text"></i></div>
-            <div className="footer-contact-text">
-              <span className="footer-contact-value" style={{ direction: "ltr" }}>info@kakagrill.com</span>
-            </div>
+            <div className="footer-contact-text"><span className="footer-contact-value" style={{ direction: "ltr" }}>info@kakagrill.com</span></div>
           </a>
         </div>
       </div>
-
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div className="footer-bottom">
           <span>{text.rights}</span>
@@ -1815,10 +1940,84 @@ function Footer({ lang }: { lang: "en" | "ar" }) {
   );
 }
 
+interface HistoryState {
+  view: ViewType;
+  category: string | null;
+}
+
 export default function KakaGrillWebsite() {
-  const [currentView, setCurrentView] = useState("home");
+  const [currentView, setCurrentView] = useState<ViewType>("home");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [lang, setLang] = useState<"en" | "ar">("en");
+  const [lang, setLang] = useState<LangType>("en");
+
+  // Synchronize internal layout views directly with browser URL Path bar state
+  const syncRoutingWithUrl = (view: ViewType, cat: string | null) => {
+    let targetPath = "/";
+    if (view === "menu") targetPath = "/menu";
+    if (view === "booking") targetPath = "/booking";
+
+    let queryString = "";
+    if (cat) {
+      queryString = `?category=${encodeURIComponent(cat)}`;
+    }
+
+    const state: HistoryState = { view, category: cat };
+    window.history.pushState(state, "", `${targetPath}${queryString}`);
+    setCurrentView(view);
+    setSelectedCategory(cat);
+    window.scrollTo(0, 0);
+  };
+
+  // Process initial URL path state on deep link load setup
+  useEffect(() => {
+    const path = window.location.pathname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get("category");
+
+    let initialView: ViewType = "home";
+    let initialCategory: string | null = null;
+
+    if (path.startsWith("/menu")) {
+      initialView = "menu";
+      if (categoryParam && MENU[categoryParam]) {
+        initialCategory = categoryParam;
+      }
+    } else if (path.startsWith("/booking")) {
+      initialView = "booking";
+    }
+
+    setCurrentView(initialView);
+    setSelectedCategory(initialCategory);
+
+    const initialState: HistoryState = { view: initialView, category: initialCategory };
+    window.history.replaceState(initialState, "");
+  }, []);
+
+  // Handle native browser back/forward buttons smoothly
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      const state = e.state as HistoryState | null;
+      if (state) {
+        setCurrentView(state.view);
+        setSelectedCategory(state.category);
+        window.scrollTo(0, 0);
+      } else {
+        // Fallback architecture matching current address context
+        const path = window.location.pathname;
+        if (path.startsWith("/menu")) {
+          setCurrentView("menu");
+        } else if (path.startsWith("/booking")) {
+          setCurrentView("booking");
+        } else {
+          setCurrentView("home");
+          setSelectedCategory(null);
+        }
+        window.scrollTo(0, 0);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   useEffect(() => {
     if (lang === "ar") document.body.classList.add("ar-mode");
@@ -1828,10 +2027,10 @@ export default function KakaGrillWebsite() {
   }, [lang]);
 
   useEffect(() => {
-    let meta = document.querySelector('meta[name="viewport"]') as HTMLMetaElement;
+    let meta = document.querySelector('meta[name="viewport"]');
     if (!meta) {
-      meta = document.createElement('meta') as HTMLMetaElement;
-      meta.name = 'viewport';
+      meta = document.createElement('meta');
+      (meta as HTMLMetaElement).name = 'viewport';
       document.head.appendChild(meta);
     }
     meta.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover');
@@ -1844,24 +2043,28 @@ export default function KakaGrillWebsite() {
       link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css";
       document.head.appendChild(link);
     }
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+    const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.isIntersecting) { entry.target.classList.add("active"); observer.unobserve(entry.target); }
       });
     }, { threshold: 0.08 });
     const t = setTimeout(() => {
-      ["reveal", "reveal-left", "reveal-right", "reveal-scale"].forEach(cls => {
-        document.querySelectorAll(`.${cls}:not(.active)`).forEach(el => observer.observe(el));
+      ["reveal", "reveal-left", "reveal-right", "reveal-scale"].forEach((cls: string) => {
+        document.querySelectorAll(`.${cls}:not(.active)`).forEach((el: Element) => observer.observe(el));
       });
     }, 100);
     return () => { clearTimeout(t); observer.disconnect(); };
   }, [currentView, selectedCategory, lang]);
 
-  const goToMenu = () => { setCurrentView("menu"); setSelectedCategory(null); window.scrollTo(0, 0); };
-  const goHome = () => { setCurrentView("home"); setSelectedCategory(null); window.scrollTo(0, 0); };
-  const goToBooking = () => { setCurrentView("booking"); setSelectedCategory(null); window.scrollTo(0, 0); };
-  const handleSelectCategory = (cat: string) => { setSelectedCategory(cat); window.scrollTo(0, 0); };
-  const handleBackToMenu = () => { setSelectedCategory(null); window.scrollTo(0, 0); };
+  const goToMenu = () => syncRoutingWithUrl("menu", null);
+  const goHome = () => syncRoutingWithUrl("home", null);
+  const goToBooking = () => syncRoutingWithUrl("booking", null);
+  const handleSelectCategory = (cat: string) => syncRoutingWithUrl("menu", cat);
+  const handleBackToMenu = () => syncRoutingWithUrl("menu", null);
+
+  const handleSetCurrentView = (v: ViewType) => {
+    syncRoutingWithUrl(v, null);
+  };
 
   return (
     <div className="kaka-grill-app" style={{ overflowX: 'hidden', width: '100%' }}>
@@ -1870,11 +2073,10 @@ export default function KakaGrillWebsite() {
       <BookTableFloatingBtn onClick={goToBooking} lang={lang} />
       <Navbar
         currentView={currentView}
-        setCurrentView={(v: string) => { setCurrentView(v); setSelectedCategory(null); }}
+        setCurrentView={handleSetCurrentView}
         lang={lang}
         setLang={setLang}
       />
-
       {currentView === "home" ? (
         <>
           <Hero />
@@ -1890,7 +2092,6 @@ export default function KakaGrillWebsite() {
       ) : (
         <FullMenuPage onNavigateHome={goHome} onSelectCategory={handleSelectCategory} lang={lang} />
       )}
-
       <Footer lang={lang} />
     </div>
   );
